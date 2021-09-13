@@ -1,0 +1,7 @@
+route:
+- path: users
+  method: get
+  to: http://localhost:8080/users
+- path: user/create
+  method: post
+  to: http://localhost:8080/user/create
