@@ -5,7 +5,7 @@ DB_HOST: '127.0.0.1'
 # default db port
 DB_PORT: '3306'
 # default db name
-DB_NAME: 'zhuiyi'
+DB_NAME: 'gateway'
 # default db name
 DB_USER: 'root'
 # default db name
@@ -21,7 +21,11 @@ TIME_DURATION: 10
 # page size
 PAGE_SIZE: 20
 # server port
+<<<<<<< HEAD
 SERVER_PORT: '8080'
+=======
+SERVER_PORT: '9090'
+>>>>>>> b8c270612e14e4607718108841674329b55671ec
 # gRPC port
 GRPC_PORT: '22530'
 

@@ -3,7 +3,7 @@ package route
 import (
 	"fmt"
 	"net/http"
-	"grpc-klb/middleware"
+	"grpc-klb/plugins"
 	"time"
 
 	"github.com/gin-gonic/gin"
