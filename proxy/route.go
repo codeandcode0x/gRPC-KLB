@@ -16,6 +16,8 @@ const (
 	TIME_DURATION = 10
 )
 
+var routeMap map[string]string
+
 func DefinitionRoute(router *gin.Engine) {
 	// set run mode
 	gin.SetMode(gin.DebugMode)
@@ -28,6 +30,7 @@ func DefinitionRoute(router *gin.Engine) {
 	router.NoRoute(NoRouteResponse)
 	// route
 	getRouter(router)
+	routeMap = make(map[string]string)
 }
 
 func getRouter(r *gin.Engine) {
@@ -67,6 +70,13 @@ func addRoute(v interface{}, r *gin.Engine) {
 		strKey := fmt.Sprintf("%v", k)
 		strValue := fmt.Sprintf("%v", v)
 		rmapStr[strKey] = strValue
+	}
+
+	if _, exist := routeMap[rmapStr["path"]]; exist {
+		log.Println("error: route ", rmapStr["path"], " exist !")
+		return
+	} else {
+		routeMap[rmapStr["path"]] = rmapStr["to"]
 	}
 
 	if rmap["method"] == "get" {

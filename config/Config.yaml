@@ -1,16 +1,16 @@
 # db setting
 # default db host
-DB_HOST: '127.0.0.1'
+DB_HOST: '114.132.222.96'
 # db driver (support mysql, postgresql, sqlite, sql server)
 DB_DRIVER: 'mysql' 
 # default db port
-DB_PORT: '3306'
+DB_PORT: '30306'
 # default db name
 DB_NAME: 'zhuiyi'
 # db user
 DB_USER: 'root'
 # db password
-DB_PASSWD: 'zhuiyi123'
+DB_PASSWD: 'db*9&123@#..'
 # db max idle conns
 DB_MAX_IDLE_CONNS: 10
 # db max open conns
@@ -24,7 +24,7 @@ DB_LOGMODE: 'info'
 
 # cache setting
 # cache enable
-CACHE_ENABLED: true
+CACHE_ENABLED: false
 # cache host
 CACHE_HOST: '127.0.0.1'
 # cache port
