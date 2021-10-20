@@ -1,0 +1,7 @@
+route:
+- path: users
+  method: get
+  to: http://127.0.0.1:8080/v1/api/users
+- path: user/create
+  method: post
+  to: http://127.0.0.1:8080/v1/api/user/create

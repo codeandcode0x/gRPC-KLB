@@ -12,6 +12,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+// http request struct
 type HttpRequest struct {
 	Header    http.Header
 	Method    string
@@ -21,6 +22,7 @@ type HttpRequest struct {
 	CacheTime int
 }
 
+// run
 func Run(c *gin.Context, to string) {
 	result := make(chan string)
 	resultErr := make(chan error)
@@ -62,6 +64,7 @@ func Run(c *gin.Context, to string) {
 
 }
 
+// http request
 func (httpReq *HttpRequest) Request() (string, error) {
 	var body string = ""
 	var err error
@@ -110,7 +113,7 @@ func GetRequestUrl(to string, c *gin.Context) string {
 	return queryStr
 }
 
-// get
+// http get
 func getRequest(u string, timeOut int) (string, error) {
 	timeout := time.Duration(timeOut) * time.Second
 
@@ -139,8 +142,7 @@ func getRequest(u string, timeOut int) (string, error) {
 	return bodyStr, nil
 }
 
-// post
-
+// http post
 func postRequest(to string, param map[string][]string, timeOut int, header http.Header) (string, error) {
 	timeout := time.Duration(timeOut) * time.Second
 

@@ -2,8 +2,8 @@
 package main
 
 import (
-	"grpc-klb/route"
-	"grpc-klb/util"
+	"grpc-klb/core/util"
+	"grpc-klb/proxy"
 	"log"
 	"net"
 	"os"
@@ -29,7 +29,7 @@ var (
 func main() {
 	util.InitConfig()
 	r := gin.Default()
-	route.DefinitionRoute(r)
+	proxy.DefinitionRoute(r)
 	// rpc goroutine
 	g.Go(func() error {
 		RpcServer()
@@ -42,8 +42,6 @@ func main() {
 	if serverPort == "" {
 		serverPort = viper.GetString("SERVER_PORT")
 	}
-
-	log.Println("port:", serverPort)
 
 	log.Println("http server runing :" + serverPort)
 

@@ -2,14 +2,14 @@ package proxy
 
 import (
 	"fmt"
-	"net/http"
 	"grpc-klb/plugins"
+	"log"
+	"net/http"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 const (
@@ -20,36 +20,35 @@ func DefinitionRoute(router *gin.Engine) {
 	// set run mode
 	gin.SetMode(gin.DebugMode)
 	// middleware
-	router.Use(gin.Logger(), gin.Recovery())
-	router.Use(middleware.Tracing())
-	router.Use(middleware.UseCookieSession())
-	router.Use(middleware.TimeoutHandler(time.Second * TIME_DURATION))
+	router.Use(gin.Recovery())
+	// router.Use(middleware.Tracing())
+	router.Use(plugins.UseCookieSession())
+	router.Use(plugins.TimeoutHandler(time.Second * TIME_DURATION))
 	// no route
 	router.NoRoute(NoRouteResponse)
-
-	//web
-	// router.Static("/web/assets", "./web/assets")
-	// router.StaticFS("/web/upload", http.Dir("/web/upload"))
-	// router.LoadHTMLGlob("web/*.tmpl")
-
-	// // gateway auth
-	// auth := router.Group("/")
-	// auth.Use(middleware.AuthMiddle())
-	// {}
-
 	// route
 	getRouter(router)
-
-	// api doc
-	router.GET("/swagger/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "USE_SWAGGER"))
-
 }
 
 func getRouter(r *gin.Engine) {
+	routerViper := viper.New()
+	routerViper.SetConfigName("RouteConfig")
+	routerViper.SetConfigType("yaml")
+	routerViper.AddConfigPath("config/")
+	routerViper.WatchConfig()
+	routerViper.OnConfigChange(func(e fsnotify.Event) {
+		log.Println("router config reload ...", e.Name)
+		getRouterTask(r)
+	})
+
+}
+
+func getRouterTask(r *gin.Engine) {
 	rv := viper.New()
-	rv.SetConfigName("route")
+	rv.SetConfigName("RouteConfig")
 	rv.SetConfigType("yaml")
 	rv.AddConfigPath("config/")
+
 	err := rv.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %s", err))
